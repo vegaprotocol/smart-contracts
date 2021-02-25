@@ -1,0 +1,26 @@
+{
+  "name": "smart-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle test",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vegaprotocol/smart-contracts.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vegaprotocol/smart-contracts/issues"
+  },
+  "homepage": "https://github.com/vegaprotocol/smart-contracts#readme",
+  "dependencies": {
+    "ethereumjs-abi": "^0.6.8"
+  }
+}
