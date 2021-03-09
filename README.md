@@ -9,9 +9,9 @@ These contracts are on Ropsten. To find details and ABIs, visit [Public_Test_Bri
 # Audit
 Pending. This repository will be updated when the audit is complete.
 
-# License
-[MIT](https://choosealicense.com/licenses/mit/)
-
 # TEST
 * Terminal 1: `ganache-cli -m "oak bottom post title exhaust fix random poverty inherit quality drop defense"`
 * Terminal 2: `truffle test`
+
+# License
+[MIT](https://choosealicense.com/licenses/mit/)
