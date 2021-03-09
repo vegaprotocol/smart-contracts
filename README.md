@@ -9,7 +9,13 @@ These contracts are on Ropsten. To find details and ABIs, visit [Public_Test_Bri
 # Audit
 Pending. This repository will be updated when the audit is complete.
 
-# TEST
+# Test
+```
+npm install
+npm test:local
+```
+
+Or more manually:
 * Terminal 1: `ganache-cli -m "oak bottom post title exhaust fix random poverty inherit quality drop defense"`
 * Terminal 2: `truffle test`
 

@@ -1,26 +1,36 @@
 {
   "name": "smart-contracts",
+  "author": "danny@vega.xyz",
   "version": "1.0.0",
-  "description": "",
+  "license": "MIT",
+  "description": "Smart contracts for Vega Protocol",
   "main": "truffle test",
   "directories": {
     "doc": "docs",
     "test": "test"
   },
   "scripts": {
-    "test": "truffle test"
+    "server": "ganache-cli -m 'oak bottom post title exhaust fix random poverty inherit quality drop defense'",
+    "test": "truffle test",
+    "test:run": "start-server-and-test server test test",
+    "test:local": "npm run test:run",
+    "test:ci": "npm run test:run"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vegaprotocol/smart-contracts.git"
   },
-  "author": "",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vegaprotocol/smart-contracts/issues"
   },
   "homepage": "https://github.com/vegaprotocol/smart-contracts#readme",
   "dependencies": {
     "ethereumjs-abi": "^0.6.8"
+  },
+  "devDependencies": {
+    "fs-extra": "^9.1.0",
+    "ganache-cli": "^6.12.2",
+    "start-server-and-test": "^1.12.0",
+    "truffle": "^5.2.3"
   }
 }
