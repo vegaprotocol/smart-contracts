@@ -1,0 +1,14 @@
+# The interesting parts
+contracts/ @c0deMunk33
+test/ @c0deMunk33
+migrations/ @c0deMunk33
+
+# Mainly node scripts and organisation
+package.json @c0deMunk33 @edd
+package-lock.json @edd
+docs/ @edd
+
+README.md @c0deMunk33 @edd @ashleyvega
+
+# Making nice badges
+.github/ @ashleyvega @edd
