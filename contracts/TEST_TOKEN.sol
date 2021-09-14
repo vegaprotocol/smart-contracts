@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.7.6;
+pragma solidity 0.8.1;
 //NOTE THIS IS ONLY TO FACILITATE TESTING
 import "./IERC20.sol";
 import "./SafeMath.sol";
@@ -348,7 +348,7 @@ contract ERC20 is IERC20 {
  */
 contract Killable is Ownable {
     function kill() public onlyOwner {
-        address payable wallet =address(uint160(owner()));
+        address payable wallet = payable(address(uint160(owner())));
         selfdestruct(wallet);
     }
 }
