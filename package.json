@@ -10,11 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "server": "ganache-cli -m 'oak bottom post title exhaust fix random poverty inherit quality drop defense'",
-    "test": "truffle test",
-    "test:run": "start-server-and-test server test test",
-    "test:local": "npm run test:run",
-    "test:ci": "npm run test:run"
+    "migrate": "truffle migrate"
   },
   "repository": {
     "type": "git",
@@ -25,12 +21,10 @@
   },
   "homepage": "https://github.com/vegaprotocol/smart-contracts#readme",
   "dependencies": {
-    "ethereumjs-abi": "^0.6.8"
-  },
-  "devDependencies": {
-    "fs-extra": "^9.1.0",
-    "ganache-cli": "^6.12.2",
-    "start-server-and-test": "^1.12.0",
-    "truffle": "^5.2.3"
+    "@truffle/hdwallet-provider": "^1.5.0",
+    "ethereumjs-abi": "0.6.8",
+    "fs-extra": "10.0.0",
+    "ganache-cli": "6.12.2",
+    "truffle": "5.4.11"
   }
 }
