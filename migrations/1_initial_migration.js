@@ -9,6 +9,7 @@ const Base_Faucet_Token = artifacts.require("Base_Faucet_Token");
 const MultisigControl = artifacts.require("MultisigControl");
 const ERC20_Asset_Pool = artifacts.require("ERC20_Asset_Pool");
 const ERC20_Bridge_Logic = artifacts.require("ERC20_Bridge_Logic");
+const ERC20_Vesting = artifacts.require("ERC20_Vesting");
 const Vega_Staking_Bridge = artifacts.require("Vega_Staking_Bridge");
 
 function multisign(
@@ -206,10 +207,19 @@ async function list_asset_on_bridge(
 }
 
 module.exports = async function (deployer) {
+  let validator_list = [
+    "0x539ac90d9523f878779491D4175dc11AD09972F0",
+    "0x7629Faf5B7a3BB167B6f2F86DB5fB7f13B20Ee90",
+    "0x5945ae02D5EE15181cc4AC0f5EaeF4C25Dc17Aa8",
+    "0xEbD0509923b3a1788032996f8B0fAC34803991fc",
+  ];
+
   deployer.deploy(Migrations);
 
   // Contracts
   await deployer.deploy(MultisigControl);
+  let multisigcontrol_instance = await MultisigControl.deployed();
+
   await deployer.deploy(ERC20_Asset_Pool, MultisigControl.address);
   let logic_1 = await deployer.deploy(
     ERC20_Bridge_Logic,
@@ -241,10 +251,10 @@ module.exports = async function (deployer) {
     ERC20_Asset_Pool: ERC20_Asset_Pool.address,
     logic_1: logic_1.address,
     logic_2: logic_2.address,
-    tBTC: "0xC912F059b4eCCEF6C969B2E0e2544A1A2581C094",  // tBTC (TEST)
-    tDAI: "0x6E3b01547c634942F9073CE863682ab32Dc500fc",  // tDAI (TEST)
-    tEURO: "0xD03f574C22EC71b5834DAE1D4cfBD00AcbAfAb89",  // tEURO (TEST)
-    tUSDC: "0xCc1dE7A9ff1dF05B9f0e49CBfFCA1D02cb5a0E40",  // tUSDC (TEST)
+    tBTC: "0xC912F059b4eCCEF6C969B2E0e2544A1A2581C094", // tBTC (TEST)
+    tDAI: "0x6E3b01547c634942F9073CE863682ab32Dc500fc", // tDAI (TEST)
+    tEURO: "0xD03f574C22EC71b5834DAE1D4cfBD00AcbAfAb89", // tEURO (TEST)
+    tUSDC: "0xCc1dE7A9ff1dF05B9f0e49CBfFCA1D02cb5a0E40", // tUSDC (TEST)
   };
 
   // Tokens
@@ -282,13 +292,23 @@ module.exports = async function (deployer) {
     //   "vega_id": "0x993ed98f4f770d91a796faab1738551193ba45c62341d20597df70fea6704ede"
     // },
     {
-      "name": "VEGA (devnet)",
-      "symbol": "VEGA",
-      "decimals": 18,
-      "total_supply_whole_tokens": "64999723",
-      "faucet_amount": 1e18.toString(),
-      "vega_id": "0xb4f2726571fbe8e33b442dc92ed2d7f0d810e21835b7371a7915a365f07ccd9b"
-    }
+      name: "VEGA (devnet)",
+      symbol: "VEGA",
+      decimals: 18,
+      total_supply_whole_tokens: "64999723",
+      faucet_amount: (1e18).toString(),
+      vega_id:
+        "0xfc7fd956078fb1fc9db5c19b88f0874c4299b2a7639ad05a47a28c0aef291b55", // b4f2726571fbe8e33b442dc92ed2d7f0d810e21835b7371a7915a365f07ccd9b",
+    },
+    {
+      name: "Vega V1 (devnet) (do not use)",
+      symbol: "VEGAv1",
+      decimals: 18,
+      total_supply_whole_tokens: "64999723",
+      faucet_amount: (1e18).toString(),
+      vega_id:
+        "0xc1607f28ec1d0a0b36842c8327101b18de2c5f172585870912f5959145a9176c",
+    },
   ];
   for (let i = 0; i < token_config.length; i++) {
     let token_contract = await deployer.deploy(
@@ -313,22 +333,31 @@ module.exports = async function (deployer) {
       );
       console.log(
         `Listed ${token_config[i].symbol} block ${result.receipt.blockNumber} ` +
-          `tx ${result.receipt.transactionHash} gas ${result.receipt.cumulativeGasUsed}`);
+          `tx ${result.receipt.transactionHash} gas ${result.receipt.cumulativeGasUsed}`
+      );
     } catch (e) {
-      console.log(`Caught an exception trying to list ${token_config[i].symbol}: ${e}`);
+      console.log(
+        `Caught an exception trying to list ${token_config[i].symbol}: ${e}`
+      );
       process.exit(1);
     }
   }
 
   // setup the staking bridge.
   let staking = await deployer.deploy(Vega_Staking_Bridge, addresses["VEGA"]);
-  addresses['staking_bridge'] = staking.address;
+  addresses["staking_bridge"] = staking.address;
+
+  let erc20_vesting = await deployer.deploy(
+    ERC20_Vesting,
+    addresses["VEGAv1"],
+    addresses["VEGA"],
+    [],
+    []
+  );
+  addresses["erc20_vesting"] = erc20_vesting.address;
 
   // New migrations go just above this comment.
 
   // Save data
-  fs.writeFileSync(
-    "addresses.json",
-    JSON.stringify(addresses, null, 2)
-  );
+  fs.writeFileSync("addresses.json", JSON.stringify(addresses, null, 2));
 };
